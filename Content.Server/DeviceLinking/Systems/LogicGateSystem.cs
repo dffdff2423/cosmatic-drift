@@ -5,7 +5,9 @@ using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Timing;
+using Content.Shared.Tools;
 using Content.Shared.Tools.Systems;
+using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using SignalReceivedEvent = Content.Server.DeviceLinking.Events.SignalReceivedEvent;
 
@@ -72,8 +74,7 @@ public sealed class LogicGateSystem : EntitySystem
             return;
 
         // no sound spamming
-        if (TryComp<UseDelayComponent>(uid, out var useDelay)
-            && !_useDelay.TryResetDelay((uid, useDelay), true))
+        if (TryComp<UseDelayComponent>(uid, out var useDelay) && _useDelay.ActiveDelay(uid, useDelay))
             return;
 
         // cycle through possible gates
@@ -89,6 +90,8 @@ public sealed class LogicGateSystem : EntitySystem
         var msg = Loc.GetString("logic-gate-cycle", ("gate", comp.Gate.ToString().ToUpper()));
         _popup.PopupEntity(msg, uid, args.User);
         _appearance.SetData(uid, LogicGateVisuals.Gate, comp.Gate);
+
+        _useDelay.BeginDelay(uid, useDelay);
     }
 
     private void OnSignalReceived(EntityUid uid, LogicGateComponent comp, ref SignalReceivedEvent args)

@@ -79,24 +79,20 @@ namespace Content.Server.Paper
             if (!args.IsInDetailsRange)
                 return;
 
-            using (args.PushGroup(nameof(PaperComponent)))
-            {
-                if (paperComp.Content != "")
-                    args.PushMarkup(
-                        Loc.GetString(
-                            "paper-component-examine-detail-has-words", ("paper", uid)
-                        )
-                    );
+            if (paperComp.Content != "")
+                args.PushMarkup(
+                    Loc.GetString(
+                        "paper-component-examine-detail-has-words", ("paper", uid)
+                    )
+                );
 
-                if (paperComp.StampedBy.Count > 0)
-                {
-                    var commaSeparated =
-                        string.Join(", ", paperComp.StampedBy.Select(s => Loc.GetString(s.StampedName)));
-                    args.PushMarkup(
-                        Loc.GetString(
-                            "paper-component-examine-detail-stamped-by", ("paper", uid), ("stamps", commaSeparated))
-                    );
-                }
+            if (paperComp.StampedBy.Count > 0)
+            {
+                var commaSeparated = string.Join(", ", paperComp.StampedBy.Select(s => Loc.GetString(s.StampedName)));
+                args.PushMarkup(
+                    Loc.GetString(
+                        "paper-component-examine-detail-stamped-by", ("paper", uid), ("stamps", commaSeparated))
+                );
             }
         }
 

@@ -81,16 +81,14 @@
     guides: [ Singularity, Power ]
   - type: ContainerContainer
     containers:
-      gas_tank: !type:ContainerSlot {}
+      GasTank: !type:ContainerSlot {}
   - type: ItemSlots
     slots:
-      gas_tank:
+      GasTank:
         startingItem: PlasmaTank
         whitelist:
           components:
           - GasTank
-  - type: UseDelay
-    delay: 1
 
 - type: entity
   id: RadiationCollectorNoTank
@@ -99,11 +97,11 @@
   components:
   - type: ItemSlots
     slots:
-      gas_tank:
+      GasTank:
         whitelist:
           components:
           - GasTank
-
+        
 - type: entity
   id: RadiationCollectorFullTank
   suffix: Filled tank
@@ -111,7 +109,7 @@
   components:
   - type: ItemSlots
     slots:
-      gas_tank:
+      GasTank:
         startingItem: PlasmaTankFilled
         whitelist:
           components:

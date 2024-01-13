@@ -1,6 +1,5 @@
 using Content.Shared.Damage.Systems;
 using Robust.Shared.Audio;
-using Robust.Shared.GameStates;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared.Damage.Components;
@@ -8,7 +7,7 @@ namespace Content.Shared.Damage.Components;
 /// <summary>
 /// Should the entity take damage / be stunned if colliding at a speed above MinimumSpeed?
 /// </summary>
-[RegisterComponent, NetworkedComponent, Access(typeof(DamageOnHighSpeedImpactSystem))]
+[RegisterComponent, Access(typeof(DamageOnHighSpeedImpactSystem))]
 public sealed partial class DamageOnHighSpeedImpactComponent : Component
 {
     [DataField("minimumSpeed"), ViewVariables(VVAccess.ReadWrite)]

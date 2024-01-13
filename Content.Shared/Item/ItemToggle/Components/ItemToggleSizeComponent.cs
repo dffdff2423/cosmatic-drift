@@ -1,15 +1,15 @@
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared.Item.ItemToggle.Components;
+namespace Content.Shared.Item;
 
 /// <summary>
-/// Handles the changes to the item size when toggled.
+/// Handles the changes to the item size when toggled. 
 /// </summary>
 /// <remarks>
 /// You can change the size when activated or not. By default the sizes are copied from the item.
 /// </remarks>
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent]
 public sealed partial class ItemToggleSizeComponent : Component
 {
     /// <summary>
@@ -23,4 +23,13 @@ public sealed partial class ItemToggleSizeComponent : Component
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite), DataField, AutoNetworkedField]
     public int? DeactivatedSize = null;
+}
+
+/// <summary>
+/// Raised in order to effect changes upon the MeleeWeaponComponent of the entity.
+/// </summary>
+[ByRefEvent]
+public record struct ItemToggleSizeUpdateEvent(bool Activated)
+{
+    public bool Activated = Activated;
 }

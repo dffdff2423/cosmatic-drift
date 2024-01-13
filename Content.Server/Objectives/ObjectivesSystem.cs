@@ -116,10 +116,10 @@ public sealed class ObjectivesSystem : SharedObjectivesSystem
 
             result += "\n";
 
-            var custody = IsInCustody(mindId, mind) ? Loc.GetString("objectives-in-custody") : string.Empty;
+            var custody = IsInCustody(mindId, mind) ? Loc.GetString("objectives-in-custody") + " " : "";
 
-            var objectives = mind.Objectives;
-            if (objectives.Count == 0)
+            var objectives = mind.AllObjectives.ToArray();
+            if (objectives.Length == 0)
             {
                 result += Loc.GetString("objectives-no-objectives", ("custody", custody), ("title", title), ("agent", agent));
                 continue;

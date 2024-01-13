@@ -31,7 +31,6 @@
       board: !type:Container
   - type: Sprite
     noRot: false
-    drawdepth: SmallObjects
     sprite: Structures/Wallmounts/intercom.rsi
     layers:
     - state: base
@@ -113,7 +112,6 @@
   - type: Clickable
   - type: InteractionOutline
   - type: Sprite
-    drawdepth: SmallObjects
     sprite: Structures/Wallmounts/intercom.rsi
     state: build
   - type: Construction

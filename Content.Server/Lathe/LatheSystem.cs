@@ -107,7 +107,7 @@ namespace Content.Server.Lathe
             if (args.Storage != uid)
                 return;
             var materialWhitelist = new List<ProtoId<MaterialPrototype>>();
-            var recipes = GetAvailableRecipes(uid, component, true);
+            var recipes = GetAllBaseRecipes(component);
             foreach (var id in recipes)
             {
                 if (!_proto.TryIndex(id, out var proto))
@@ -126,18 +126,18 @@ namespace Content.Server.Lathe
         }
 
         [PublicAPI]
-        public bool TryGetAvailableRecipes(EntityUid uid, [NotNullWhen(true)] out List<ProtoId<LatheRecipePrototype>>? recipes, [NotNullWhen(true)] LatheComponent? component = null, bool getUnavailable = false)
+        public bool TryGetAvailableRecipes(EntityUid uid, [NotNullWhen(true)] out List<ProtoId<LatheRecipePrototype>>? recipes, [NotNullWhen(true)] LatheComponent? component = null)
         {
             recipes = null;
             if (!Resolve(uid, ref component))
                 return false;
-            recipes = GetAvailableRecipes(uid, component, getUnavailable);
+            recipes = GetAvailableRecipes(uid, component);
             return true;
         }
 
-        public List<ProtoId<LatheRecipePrototype>> GetAvailableRecipes(EntityUid uid, LatheComponent component, bool getUnavailable = false)
+        public List<ProtoId<LatheRecipePrototype>> GetAvailableRecipes(EntityUid uid, LatheComponent component)
         {
-            var ev = new LatheGetRecipesEvent(uid, getUnavailable)
+            var ev = new LatheGetRecipesEvent(uid)
             {
                 Recipes = new List<ProtoId<LatheRecipePrototype>>(component.StaticRecipes)
             };
@@ -236,7 +236,7 @@ namespace Content.Server.Lathe
 
             foreach (var recipe in latheComponent.DynamicRecipes)
             {
-                if (!(args.getUnavailable || component.UnlockedRecipes.Contains(recipe)) || args.Recipes.Contains(recipe))
+                if (!component.UnlockedRecipes.Contains(recipe) || args.Recipes.Contains(recipe))
                     continue;
                 args.Recipes.Add(recipe);
             }
@@ -246,11 +246,11 @@ namespace Content.Server.Lathe
         {
             if (uid != args.Lathe || !TryComp<TechnologyDatabaseComponent>(uid, out var technologyDatabase))
                 return;
-            if (!args.getUnavailable && !HasComp<EmaggedComponent>(uid))
+            if (!HasComp<EmaggedComponent>(uid))
                 return;
             foreach (var recipe in component.EmagDynamicRecipes)
             {
-                if (!(args.getUnavailable || technologyDatabase.UnlockedRecipes.Contains(recipe)) || args.Recipes.Contains(recipe))
+                if (!technologyDatabase.UnlockedRecipes.Contains(recipe) || args.Recipes.Contains(recipe))
                     continue;
                 args.Recipes.Add(recipe);
             }

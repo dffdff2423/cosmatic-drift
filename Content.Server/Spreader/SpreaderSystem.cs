@@ -70,8 +70,7 @@ public sealed class SpreaderSystem : EntitySystem
 
         foreach (var neighbor in neighbors)
         {
-            if (!TerminatingOrDeleted(neighbor))
-                EnsureComp<ActiveEdgeSpreaderComponent>(neighbor);
+            EnsureComp<ActiveEdgeSpreaderComponent>(neighbor);
         }
     }
 

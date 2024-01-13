@@ -48,7 +48,7 @@
   - type: Material
   - type: PhysicalComposition
     materialComposition:
-      RawGold: 500
+      Gold: 500
 
 - type: entity
   parent: GoldOre
@@ -63,7 +63,7 @@
 - type: entity
   parent: OreBase
   id: SteelOre
-  name: iron ore
+  name: steel ore
   suffix: Full
   components:
   - type: Stack
@@ -73,7 +73,7 @@
   - type: Material
   - type: PhysicalComposition
     materialComposition:
-      RawIron: 500
+      Steel: 500
 
 - type: entity
   id: SteelOre1
@@ -98,12 +98,7 @@
   - type: Material
   - type: PhysicalComposition
     materialComposition:
-      RawPlasma: 500
-  - type: PointLight
-    radius: 1.2
-    energy: 0.6
-    castShadows: false
-    color: "#e592e7"
+      Plasma: 500
 
 - type: entity
   parent: PlasmaOre
@@ -128,7 +123,7 @@
   - type: Material
   - type: PhysicalComposition
     materialComposition:
-      RawSilver: 500
+      Silver: 500
 
 - type: entity
   parent: SilverOre
@@ -153,7 +148,7 @@
   - type: Material
   - type: PhysicalComposition
     materialComposition:
-      RawQuartz: 500
+      Glass: 500
 
 - type: entity
   parent: SpaceQuartz
@@ -178,12 +173,7 @@
   - type: Material
   - type: PhysicalComposition
     materialComposition:
-      RawUranium: 500
-  - type: PointLight
-    radius: 1.2
-    energy: 0.8
-    castShadows: false
-    color: "#9be792"
+      Uranium: 500
 
 - type: entity
   parent: UraniumOre
@@ -209,12 +199,7 @@
   - type: Material
   - type: PhysicalComposition
     materialComposition:
-      RawBananium: 500
-  - type: PointLight
-    radius: 1.2
-    energy: 1
-    castShadows: false
-    color: "#eef066"
+      Bananium: 500
 
 - type: entity
   parent: BananiumOre

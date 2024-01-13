@@ -33,7 +33,7 @@
 - type: entity
   id: CrateEmergencyInternals
   parent: CrateInternals
-  name: emergency suits
+  name: Emergency Suits
   components:
   - type: StorageFill
     contents:
@@ -51,7 +51,7 @@
 - type: entity
   id: CrateEmergencyInternalsLarge
   parent: CrateInternals
-  name: emergency suits (Large)
+  name: Emergency Suits (Large)
   components:
     - type: StorageFill
       contents:
@@ -86,6 +86,8 @@
   - type: StorageFill
     contents:
       - id: ClothingOuterSuitRad
+        amount: 2
+      - id: ClothingHeadHatHoodRad
         amount: 2
       - id: GeigerCounter
         amount: 2

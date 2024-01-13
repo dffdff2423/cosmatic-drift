@@ -1,8 +1,8 @@
-- type: gameMap
+﻿- type: gameMap
   id: Omega
   mapName: 'Omega'
   mapPath: /Maps/omega.yml
-  minPlayers: 10
+  minPlayers: 0
   maxPlayers: 35
   stations:
     Omega:

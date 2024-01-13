@@ -92,14 +92,14 @@
     - type: GasPortable
     - type: GasCanister
       gasTankSlot:
-        name: comp-gas-canister-slot-name-gas-tank
+        name: Gas Tank
         whitelist:
           components:
             - GasTank
     - type: StaticPrice
       price: 1000
     - type: AccessReader
-      access: [["Atmospherics"], ["Engineering"], ["Research"]]
+      access: [["Atmospherics"], ["ResearchDirector"]]
     - type: Lock
       locked: false
 

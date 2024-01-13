@@ -1,4 +1,4 @@
-- type: entity
+﻿- type: entity
   parent: BaseItem
   id: MMI
   name: man-machine interface
@@ -37,7 +37,7 @@
   - type: ItemSlots
     slots:
       brain_slot:
-        name: positronic-brain-slot-component-slot-name-brain
+        name: "Brain"
         whitelist:
           components:
           - Brain

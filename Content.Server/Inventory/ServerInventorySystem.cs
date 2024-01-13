@@ -1,5 +1,7 @@
 using Content.Server.Storage.EntitySystems;
+using Content.Shared.Clothing.Components;
 using Content.Shared.Explosion;
+using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Storage;
@@ -15,6 +17,9 @@ namespace Content.Server.Inventory
             base.Initialize();
 
             SubscribeLocalEvent<InventoryComponent, BeforeExplodeEvent>(OnExploded);
+
+            SubscribeLocalEvent<ClothingComponent, UseInHandEvent>(OnUseInHand);
+
             SubscribeNetworkEvent<OpenSlotStorageNetworkMessage>(OnOpenSlotStorage);
         }
 
@@ -27,6 +32,14 @@ namespace Content.Server.Inventory
                 if (slot.ContainedEntity != null)
                     args.Contents.Add(slot.ContainedEntity.Value);
             }
+        }
+
+        private void OnUseInHand(EntityUid uid, ClothingComponent component, UseInHandEvent args)
+        {
+            if (args.Handled || !component.QuickEquip)
+                return;
+
+            QuickEquip(uid, component, args);
         }
 
         private void OnOpenSlotStorage(OpenSlotStorageNetworkMessage ev, EntitySessionEventArgs args)

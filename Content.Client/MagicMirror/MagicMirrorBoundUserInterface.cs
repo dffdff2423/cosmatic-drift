@@ -30,7 +30,6 @@ public sealed class MagicMirrorBoundUserInterface : BoundUserInterface
         _window.OnFacialHairSlotAdded += delegate () { AddSlot(MagicMirrorCategory.FacialHair); };
         _window.OnFacialHairSlotRemoved += args => RemoveSlot(MagicMirrorCategory.FacialHair, args);
 
-        _window.OnClose += Close;
         _window.OpenCentered();
     }
 
@@ -54,18 +53,17 @@ public sealed class MagicMirrorBoundUserInterface : BoundUserInterface
         SendMessage(new MagicMirrorAddSlotMessage(category));
     }
 
-    protected override void UpdateState(BoundUserInterfaceState state)
+    protected override void ReceiveMessage(BoundUserInterfaceMessage message)
     {
-        base.UpdateState(state);
+        base.ReceiveMessage(message);
 
-        if (state is not MagicMirrorUiState data || _window == null)
+        if (message is not MagicMirrorUiData data || _window == null)
         {
             return;
         }
 
         _window.UpdateState(data);
     }
-
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);

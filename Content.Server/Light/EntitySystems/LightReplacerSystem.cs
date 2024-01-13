@@ -33,27 +33,23 @@ public sealed class LightReplacerSystem : EntitySystem
 
     private void OnExamined(EntityUid uid, LightReplacerComponent component, ExaminedEvent args)
     {
-        using (args.PushGroup(nameof(LightReplacerComponent)))
+        if (!component.InsertedBulbs.ContainedEntities.Any())
         {
-            if (!component.InsertedBulbs.ContainedEntities.Any())
-            {
-                args.PushMarkup(Loc.GetString("comp-light-replacer-no-lights"));
-                return;
-            }
+            args.PushMarkup(Loc.GetString("comp-light-replacer-no-lights"));
+            return;
+        }
+        args.PushMarkup(Loc.GetString("comp-light-replacer-has-lights"));
+        var groups = new Dictionary<string, int>();
+        var metaQuery = GetEntityQuery<MetaDataComponent>();
+        foreach (var bulb in component.InsertedBulbs.ContainedEntities)
+        {
+            var metaData = metaQuery.GetComponent(bulb);
+            groups[metaData.EntityName] = groups.GetValueOrDefault(metaData.EntityName) + 1;
+        }
 
-            args.PushMarkup(Loc.GetString("comp-light-replacer-has-lights"));
-            var groups = new Dictionary<string, int>();
-            var metaQuery = GetEntityQuery<MetaDataComponent>();
-            foreach (var bulb in component.InsertedBulbs.ContainedEntities)
-            {
-                var metaData = metaQuery.GetComponent(bulb);
-                groups[metaData.EntityName] = groups.GetValueOrDefault(metaData.EntityName) + 1;
-            }
-
-            foreach (var (name, amount) in groups)
-            {
-                args.PushMarkup(Loc.GetString("comp-light-replacer-light-listing", ("amount", amount), ("name", name)));
-            }
+        foreach (var (name, amount) in groups)
+        {
+            args.PushMarkup(Loc.GetString("comp-light-replacer-light-listing", ("amount", amount), ("name", name)));
         }
     }
 

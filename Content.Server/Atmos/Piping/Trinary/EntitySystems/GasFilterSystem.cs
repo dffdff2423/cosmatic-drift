@@ -36,7 +36,7 @@ namespace Content.Server.Atmos.Piping.Trinary.EntitySystems
             SubscribeLocalEvent<GasFilterComponent, ComponentInit>(OnInit);
             SubscribeLocalEvent<GasFilterComponent, AtmosDeviceUpdateEvent>(OnFilterUpdated);
             SubscribeLocalEvent<GasFilterComponent, AtmosDeviceDisabledEvent>(OnFilterLeaveAtmosphere);
-            SubscribeLocalEvent<GasFilterComponent, ActivateInWorldEvent>(OnFilterActivate);
+            SubscribeLocalEvent<GasFilterComponent, InteractHandEvent>(OnFilterInteractHand);
             SubscribeLocalEvent<GasFilterComponent, GasAnalyzerScanEvent>(OnFilterAnalyzed);
             // Bound UI subscriptions
             SubscribeLocalEvent<GasFilterComponent, GasFilterChangeRateMessage>(OnTransferRateChangeMessage);
@@ -101,7 +101,7 @@ namespace Content.Server.Atmos.Piping.Trinary.EntitySystems
             _userInterfaceSystem.TryCloseAll(uid, GasFilterUiKey.Key);
         }
 
-        private void OnFilterActivate(EntityUid uid, GasFilterComponent filter, ActivateInWorldEvent args)
+        private void OnFilterInteractHand(EntityUid uid, GasFilterComponent filter, InteractHandEvent args)
         {
             if (!EntityManager.TryGetComponent(args.User, out ActorComponent? actor))
                 return;

@@ -121,8 +121,8 @@
 - type: cargoProduct
   id: LivestockMonkeyCube
   icon:
-    sprite: Objects/Misc/monkeycube.rsi
-    state: box
+    sprite: Mobs/Animals/monkey.rsi
+    state: monkey
   product: CrateNPCMonkeyCube
   cost: 2000
   category: Livestock
@@ -131,8 +131,8 @@
 - type: cargoProduct
   id: LivestockKoboldCube
   icon:
-    sprite: Objects/Misc/monkeycube.rsi
-    state: box_kobold
+    sprite: Mobs/Animals/kobold.rsi
+    state: kobold
   product: CrateNPCKoboldCube
   cost: 2000
   category: Livestock

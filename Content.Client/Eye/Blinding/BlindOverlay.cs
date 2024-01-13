@@ -82,9 +82,8 @@ namespace Content.Client.Eye.Blinding
 
             if (_entityManager.TryGetComponent<EyeComponent>(playerEntity, out var content))
             {
-                _circleMaskShader?.SetParameter("Zoom", content.Zoom.X);
+                _circleMaskShader?.SetParameter("ZOOM", content.Zoom.X);
             }
-
             _greyscaleShader?.SetParameter("SCREEN_TEXTURE", ScreenTexture);
 
             var worldHandle = args.WorldHandle;

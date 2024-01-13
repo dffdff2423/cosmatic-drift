@@ -1,7 +1,7 @@
 - type: entity
   id: DecoratedFirTree
   parent: BaseStructure
-  name: decorated fir tree
+  name: Decorated Fir Tree
   description: A very festive tree for a very festive holiday.
   components:
   - type: Sprite

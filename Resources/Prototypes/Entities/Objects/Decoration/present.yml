@@ -1,6 +1,6 @@
 - type: entity
   id: PresentBase
-  name: present
+  name: Present
   description: A little box with incredible surprises inside.
   abstract: true
   components:
@@ -89,8 +89,6 @@
       - id: ToyAmongPequeno
         orGroup: GiftPool
       - id: PlushieDiona
-        orGroup: GiftPool
-      - id: PlushieArachind
         orGroup: GiftPool
       - id: ClothingNeckCloakMoth
         orGroup: GiftPool

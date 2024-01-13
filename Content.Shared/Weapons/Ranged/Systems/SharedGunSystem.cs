@@ -321,9 +321,9 @@ public abstract partial class SharedGunSystem : EntitySystem
             // If they're firing an existing clip then don't play anything.
             if (shots > 0)
             {
-                if (ev.Reason != null && Timing.IsFirstTimePredicted)
+                if (ev.Reason != null)
                 {
-                    PopupSystem.PopupCursor(ev.Reason);
+                    PopupSystem.PopupClient(ev.Reason, gunUid, user);
                 }
 
                 // Don't spam safety sounds at gun fire rate, play it at a reduced rate.

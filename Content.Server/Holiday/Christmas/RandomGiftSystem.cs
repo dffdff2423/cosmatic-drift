@@ -44,7 +44,8 @@ public sealed class RandomGiftSystem : EntitySystem
             return;
 
         var name = _prototype.Index<EntityPrototype>(component.SelectedEntity).Name;
-        args.PushText(Loc.GetString("gift-packin-contains", ("name", name)));
+        args.Message.PushNewline();
+        args.Message.AddText(Loc.GetString("gift-packin-contains", ("name", name)));
     }
 
     private void OnUseInHand(EntityUid uid, RandomGiftComponent component, UseInHandEvent args)

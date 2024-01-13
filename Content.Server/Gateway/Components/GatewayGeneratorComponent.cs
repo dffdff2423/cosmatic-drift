@@ -55,7 +55,7 @@ public sealed partial class GatewayGeneratorComponent : Component
     /// </summary>
     public List<ProtoId<BiomeMarkerLayerPrototype>> LootLayers = new()
     {
-        "OreIron",
+        "OreTin",
         "OreQuartz",
         "OreGold",
         "OreSilver",

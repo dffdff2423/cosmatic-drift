@@ -51,23 +51,20 @@ namespace Content.Server.Atmos.Piping.Binary.EntitySystems
                 return;
             }
 
-            using (args.PushGroup(nameof(GasRecyclerComponent)))
+            if (comp.Reacting)
             {
-                if (comp.Reacting)
+                args.PushMarkup(Loc.GetString("gas-recycler-reacting"));
+            }
+            else
+            {
+                if (inlet.Air.Pressure < comp.MinPressure)
                 {
-                    args.PushMarkup(Loc.GetString("gas-recycler-reacting"));
+                    args.PushMarkup(Loc.GetString("gas-recycler-low-pressure"));
                 }
-                else
-                {
-                    if (inlet.Air.Pressure < comp.MinPressure)
-                    {
-                        args.PushMarkup(Loc.GetString("gas-recycler-low-pressure"));
-                    }
 
-                    if (inlet.Air.Temperature < comp.MinTemp)
-                    {
-                        args.PushMarkup(Loc.GetString("gas-recycler-low-temperature"));
-                    }
+                if (inlet.Air.Temperature < comp.MinTemp)
+                {
+                    args.PushMarkup(Loc.GetString("gas-recycler-low-temperature"));
                 }
             }
         }

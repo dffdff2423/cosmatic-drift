@@ -78,7 +78,7 @@ namespace Content.Server.Light.EntitySystems
 
                         if (TryComp<ItemComponent>(ent, out var item))
                         {
-                            _item.SetHeldPrefix(ent, "unlit", component: item);
+                            _item.SetHeldPrefix(ent, "unlit", item);
                         }
 
                         break;
@@ -96,7 +96,7 @@ namespace Content.Server.Light.EntitySystems
             {
                 if (TryComp<ItemComponent>(ent, out var item))
                 {
-                    _item.SetHeldPrefix(ent, "lit", component: item);
+                    _item.SetHeldPrefix(ent, "lit", item);
                 }
 
                 component.CurrentState = ExpendableLightState.Lit;
@@ -163,7 +163,7 @@ namespace Content.Server.Light.EntitySystems
         {
             if (TryComp<ItemComponent>(uid, out var item))
             {
-                _item.SetHeldPrefix(uid, "unlit", component: item);
+                _item.SetHeldPrefix(uid, "unlit", item);
             }
 
             component.CurrentState = ExpendableLightState.BrandNew;

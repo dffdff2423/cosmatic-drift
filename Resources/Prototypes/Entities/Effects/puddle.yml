@@ -86,7 +86,7 @@
 
 - type: entity
   id: PuddleSparkle
-  name: sparkle
+  name: Sparkle
   placement:
     mode: SnapgridCenter
   components:
@@ -160,8 +160,6 @@
     solution: puddle
     examinable: false
   - type: ExaminableSolution
-    solution: puddle
-  - type: DrawableSolution
     solution: puddle
   - type: BadDrink
   - type: IgnoresFingerprints

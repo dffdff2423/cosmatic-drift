@@ -5,7 +5,6 @@ using Content.Shared.Database;
 using Content.Shared.Examine;
 using Content.Shared.Pinpointer;
 using Content.Shared.Tag;
-using Robust.Server.GameObjects;
 using Robust.Shared.GameStates;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
@@ -21,7 +20,6 @@ public sealed class NavMapSystem : SharedNavMapSystem
     [Dependency] private readonly IAdminLogManager _adminLog = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly TagSystem _tags = default!;
-    [Dependency] private readonly MapSystem _map = default!;
 
     private EntityQuery<PhysicsComponent> _physicsQuery;
     private EntityQuery<TagComponent> _tagQuery;
@@ -43,9 +41,6 @@ public sealed class NavMapSystem : SharedNavMapSystem
         SubscribeLocalEvent<NavMapBeaconComponent, ComponentStartup>(OnNavMapBeaconStartup);
         SubscribeLocalEvent<NavMapBeaconComponent, AnchorStateChangedEvent>(OnNavMapBeaconAnchor);
 
-        SubscribeLocalEvent<NavMapDoorComponent, ComponentStartup>(OnNavMapDoorStartup);
-        SubscribeLocalEvent<NavMapDoorComponent, AnchorStateChangedEvent>(OnNavMapDoorAnchor);
-
         SubscribeLocalEvent<ConfigurableNavMapBeaconComponent, NavMapBeaconConfigureBuiMessage>(OnConfigureMessage);
         SubscribeLocalEvent<ConfigurableNavMapBeaconComponent, MapInitEvent>(OnConfigurableMapInit);
         SubscribeLocalEvent<ConfigurableNavMapBeaconComponent, ExaminedEvent>(OnConfigurableExamined);
@@ -66,16 +61,6 @@ public sealed class NavMapSystem : SharedNavMapSystem
     {
         UpdateBeaconEnabledVisuals((uid, component));
         RefreshNavGrid(uid);
-    }
-
-    private void OnNavMapDoorStartup(Entity<NavMapDoorComponent> ent, ref ComponentStartup args)
-    {
-        RefreshNavGrid(ent);
-    }
-
-    private void OnNavMapDoorAnchor(Entity<NavMapDoorComponent> ent, ref AnchorStateChangedEvent args)
-    {
-        RefreshNavGrid(ent);
     }
 
     private void OnConfigureMessage(Entity<ConfigurableNavMapBeaconComponent> ent, ref NavMapBeaconConfigureBuiMessage args)
@@ -169,9 +154,6 @@ public sealed class NavMapSystem : SharedNavMapSystem
 
     private void OnNavMapSplit(ref GridSplitEvent args)
     {
-        if (!TryComp(args.Grid, out NavMapComponent? comp))
-            return;
-
         var gridQuery = GetEntityQuery<MapGridComponent>();
 
         foreach (var grid in args.NewGrids)
@@ -180,7 +162,7 @@ public sealed class NavMapSystem : SharedNavMapSystem
             RefreshGrid(newComp, gridQuery.GetComponent(grid));
         }
 
-        RefreshGrid(comp, gridQuery.GetComponent(args.Grid));
+        RefreshGrid(Comp<NavMapComponent>(args.Grid), gridQuery.GetComponent(args.Grid));
     }
 
     private void RefreshGrid(NavMapComponent component, MapGridComponent grid)
@@ -205,9 +187,6 @@ public sealed class NavMapSystem : SharedNavMapSystem
 
     private void OnGetState(EntityUid uid, NavMapComponent component, ref ComponentGetState args)
     {
-        if (!TryComp<MapGridComponent>(uid, out var mapGrid))
-            return;
-
         var data = new Dictionary<Vector2i, int>(component.Chunks.Count);
         foreach (var (index, chunk) in component.Chunks)
         {
@@ -240,45 +219,11 @@ public sealed class NavMapSystem : SharedNavMapSystem
             beacons.Add(new NavMapBeacon(beacon.Color, name, xform.LocalPosition));
         }
 
-        var airlockQuery = EntityQueryEnumerator<NavMapDoorComponent, TransformComponent>();
-        var airlocks = new List<NavMapAirlock>();
-        while (airlockQuery.MoveNext(out _, out _, out var xform))
-        {
-            if (xform.GridUid != uid || !xform.Anchored)
-                continue;
-
-            var pos = _map.TileIndicesFor(uid, mapGrid, xform.Coordinates);
-            var enumerator = _map.GetAnchoredEntitiesEnumerator(uid, mapGrid, pos);
-
-            var wallPresent = false;
-            while (enumerator.MoveNext(out var ent))
-            {
-                if (!_physicsQuery.TryGetComponent(ent, out var body) ||
-                    !body.CanCollide ||
-                    !body.Hard ||
-                    body.BodyType != BodyType.Static ||
-                    !_tags.HasTag(ent.Value, "Wall", _tagQuery) &&
-                    !_tags.HasTag(ent.Value, "Window", _tagQuery))
-                {
-                    continue;
-                }
-
-                wallPresent = true;
-                break;
-            }
-
-            if (wallPresent)
-                continue;
-
-            airlocks.Add(new NavMapAirlock(xform.LocalPosition));
-        }
-
         // TODO: Diffs
         args.State = new NavMapComponentState()
         {
             TileData = data,
             Beacons = beacons,
-            Airlocks = airlocks
         };
     }
 
@@ -338,8 +283,8 @@ public sealed class NavMapSystem : SharedNavMapSystem
                 !body.CanCollide ||
                 !body.Hard ||
                 body.BodyType != BodyType.Static ||
-                !_tags.HasTag(ent.Value, "Wall", _tagQuery) &&
-                !_tags.HasTag(ent.Value, "Window", _tagQuery))
+                (!_tags.HasTag(ent.Value, "Wall", _tagQuery) &&
+                 !_tags.HasTag(ent.Value, "Window", _tagQuery)))
             {
                 continue;
             }

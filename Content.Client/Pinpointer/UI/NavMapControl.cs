@@ -25,7 +25,7 @@ namespace Content.Client.Pinpointer.UI;
 public partial class NavMapControl : MapGridControl
 {
     [Dependency] private readonly IEntityManager _entManager = default!;
-    private readonly SharedTransformSystem _transformSystem;
+    private readonly SharedTransformSystem _transformSystem = default!;
 
     public EntityUid? Owner;
     public EntityUid? MapUid;
@@ -37,7 +37,7 @@ public partial class NavMapControl : MapGridControl
     // Tracked data
     public Dictionary<EntityCoordinates, (bool Visible, Color Color)> TrackedCoordinates = new();
     public Dictionary<NetEntity, NavMapBlip> TrackedEntities = new();
-    public Dictionary<Vector2i, List<NavMapLine>>? TileGrid = default!;
+    public Dictionary<Vector2i, List<NavMapLine>> TileGrid = default!;
 
     // Default colors
     public Color WallColor = new(102, 217, 102);
@@ -207,6 +207,7 @@ public partial class NavMapControl : MapGridControl
 
             // Find closest tracked entity in range
             var closestEntity = NetEntity.Invalid;
+            var closestCoords = new EntityCoordinates();
             var closestDistance = float.PositiveInfinity;
 
             foreach ((var currentEntity, var blip) in TrackedEntities)
@@ -220,6 +221,7 @@ public partial class NavMapControl : MapGridControl
                     continue;
 
                 closestEntity = currentEntity;
+                closestCoords = blip.Coordinates;
                 closestDistance = currentDistance;
             }
 
@@ -232,7 +234,8 @@ public partial class NavMapControl : MapGridControl
         else if (args.Function == EngineKeyFunctions.UIRightClick)
         {
             // Clear current selection with right click
-            TrackedEntitySelectedAction?.Invoke(null);
+            if (TrackedEntitySelectedAction != null)
+                TrackedEntitySelectedAction.Invoke(null);
         }
     }
 
@@ -257,7 +260,7 @@ public partial class NavMapControl : MapGridControl
     {
         base.Draw(handle);
 
-        // Get the components necessary for drawing the navmap
+        // Get the components necessary for drawing the navmap 
         _entManager.TryGetComponent(MapUid, out _navMap);
         _entManager.TryGetComponent(MapUid, out _grid);
         _entManager.TryGetComponent(MapUid, out _xform);
@@ -315,7 +318,7 @@ public partial class NavMapControl : MapGridControl
 
         var area = new Box2(-WorldRange, -WorldRange, WorldRange + 1f, WorldRange + 1f).Translated(offset);
 
-        // Drawing lines can be rather expensive due to the number of neighbors that need to be checked in order
+        // Drawing lines can be rather expensive due to the number of neighbors that need to be checked in order  
         // to figure out where they should be drawn. However, we don't *need* to do check these every frame.
         // Instead, lets periodically update where to draw each line and then store these points in a list.
         // Then we can just run through the list each frame and draw the lines without any extra computation.
@@ -355,41 +358,6 @@ public partial class NavMapControl : MapGridControl
 
                 handle.DrawPrimitives(DrawPrimitiveTopology.LineList, walls.Span, sRGB);
             }
-        }
-
-        var airlockBuffer = Vector2.One * (MinimapScale / 2.25f) * 0.75f;
-        var airlockLines = new ValueList<Vector2>();
-        var foobarVec = new Vector2(1, -1);
-
-        foreach (var airlock in _navMap.Airlocks)
-        {
-            var position = airlock.Position - offset;
-            position = Scale(position with { Y = -position.Y });
-            airlockLines.Add(position + airlockBuffer);
-            airlockLines.Add(position - airlockBuffer * foobarVec);
-
-            airlockLines.Add(position + airlockBuffer);
-            airlockLines.Add(position + airlockBuffer * foobarVec);
-
-            airlockLines.Add(position - airlockBuffer);
-            airlockLines.Add(position + airlockBuffer * foobarVec);
-
-            airlockLines.Add(position - airlockBuffer);
-            airlockLines.Add(position - airlockBuffer * foobarVec);
-
-            airlockLines.Add(position + airlockBuffer * -Vector2.UnitY);
-            airlockLines.Add(position - airlockBuffer * -Vector2.UnitY);
-        }
-
-        if (airlockLines.Count > 0)
-        {
-            if (!_sRGBLookUp.TryGetValue(WallColor, out var sRGB))
-            {
-                sRGB = Color.ToSrgb(WallColor);
-                _sRGBLookUp[WallColor] = sRGB;
-            }
-
-            handle.DrawPrimitives(DrawPrimitiveTopology.LineList, airlockLines.Span, sRGB);
         }
 
         if (PostWallDrawingAction != null)

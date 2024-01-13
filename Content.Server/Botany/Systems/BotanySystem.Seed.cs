@@ -90,13 +90,10 @@ public sealed partial class BotanySystem : EntitySystem
         if (!TryGetSeed(component, out var seed))
             return;
 
-        using (args.PushGroup(nameof(SeedComponent)))
-        {
-            var name = Loc.GetString(seed.DisplayName);
-            args.PushMarkup(Loc.GetString($"seed-component-description", ("seedName", name)));
-            args.PushMarkup(Loc.GetString($"seed-component-plant-yield-text", ("seedYield", seed.Yield)));
-            args.PushMarkup(Loc.GetString($"seed-component-plant-potency-text", ("seedPotency", seed.Potency)));
-        }
+        var name = Loc.GetString(seed.DisplayName);
+        args.PushMarkup(Loc.GetString($"seed-component-description", ("seedName", name)));
+        args.PushMarkup(Loc.GetString($"seed-component-plant-yield-text", ("seedYield", seed.Yield)));
+        args.PushMarkup(Loc.GetString($"seed-component-plant-potency-text", ("seedPotency", seed.Potency)));
     }
 
     #region SeedPrototype prototype stuff

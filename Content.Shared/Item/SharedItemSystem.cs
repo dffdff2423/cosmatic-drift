@@ -4,9 +4,6 @@ using Content.Shared.Interaction;
 using Content.Shared.Stacks;
 using Content.Shared.Verbs;
 using Content.Shared.Examine;
-using Content.Shared.Item.ItemToggle.Components;
-using Content.Shared.Storage;
-using JetBrains.Annotations;
 using Robust.Shared.Containers;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -25,18 +22,15 @@ public abstract class SharedItemSystem : EntitySystem
     {
         base.Initialize();
         SubscribeLocalEvent<ItemComponent, GetVerbsEvent<InteractionVerb>>(AddPickupVerb);
+        SubscribeLocalEvent<ItemComponent, InteractHandEvent>(OnHandInteract, before: new []{typeof(SharedItemSystem)});
         SubscribeLocalEvent<ItemComponent, StackCountChangedEvent>(OnStackCountChanged);
-        SubscribeLocalEvent<ItemComponent, InteractHandEvent>(OnHandInteract);
-        SubscribeLocalEvent<ItemComponent, AfterAutoHandleStateEvent>(OnItemAutoState);
+
+        SubscribeLocalEvent<ItemComponent, ComponentGetState>(OnGetState);
+        SubscribeLocalEvent<ItemComponent, ComponentHandleState>(OnHandleState);
 
         SubscribeLocalEvent<ItemComponent, ExaminedEvent>(OnExamine);
 
-        SubscribeLocalEvent<ItemToggleSizeComponent, ItemToggledEvent>(OnItemToggle);
-    }
-
-    private void OnItemAutoState(EntityUid uid, ItemComponent component, ref AfterAutoHandleStateEvent args)
-    {
-        SetHeldPrefix(uid, component.HeldPrefix, force: true, component);
+        SubscribeLocalEvent<ItemToggleSizeComponent, ItemToggleSizeUpdateEvent>(OnItemToggle);
     }
 
     #region Public API
@@ -50,12 +44,12 @@ public abstract class SharedItemSystem : EntitySystem
         Dirty(component);
     }
 
-    public void SetHeldPrefix(EntityUid uid, string? heldPrefix, bool force = false, ItemComponent? component = null)
+    public void SetHeldPrefix(EntityUid uid, string? heldPrefix, ItemComponent? component = null)
     {
         if (!Resolve(uid, ref component, false))
             return;
 
-        if (!force && component.HeldPrefix == heldPrefix)
+        if (component.HeldPrefix == heldPrefix)
             return;
 
         component.HeldPrefix = heldPrefix;
@@ -100,7 +94,21 @@ public abstract class SharedItemSystem : EntitySystem
 
         SetSize(uid, args.NewCount * size, component);
     }
-    
+
+    private void OnHandleState(EntityUid uid, ItemComponent component, ref ComponentHandleState args)
+    {
+        if (args.Current is not ItemComponentState state)
+            return;
+
+        component.Size = state.Size;
+        SetHeldPrefix(uid, state.HeldPrefix, component);
+    }
+
+    private void OnGetState(EntityUid uid, ItemComponent component, ref ComponentGetState args)
+    {
+        args.State = new ItemComponentState(component.Size, component.HeldPrefix);
+    }
+
     private void AddPickupVerb(EntityUid uid, ItemComponent component, GetVerbsEvent<InteractionVerb> args)
     {
         if (args.Hands == null ||
@@ -128,9 +136,8 @@ public abstract class SharedItemSystem : EntitySystem
 
     private void OnExamine(EntityUid uid, ItemComponent component, ExaminedEvent args)
     {
-        // show at end of message generally
         args.PushMarkup(Loc.GetString("item-component-on-examine-size",
-            ("size", component.Size)), priority: -1);
+            ("size", component.Size)));
     }
 
     /// <summary>
@@ -147,7 +154,7 @@ public abstract class SharedItemSystem : EntitySystem
     /// <summary>
     /// Used to update the Item component on item toggle (specifically size).
     /// </summary>
-    private void OnItemToggle(EntityUid uid, ItemToggleSizeComponent itemToggleSize, ItemToggledEvent args)
+    private void OnItemToggle(EntityUid uid, ItemToggleSizeComponent itemToggleSize, ItemToggleSizeUpdateEvent args)
     {
         if (!TryComp(uid, out ItemComponent? item))
             return;

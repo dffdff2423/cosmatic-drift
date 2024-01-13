@@ -109,7 +109,7 @@
   - type: TransformableContainer
 
 - type: entity
-  name: coupe glass
+  name: Coupe glass
   description: A classic thin neck coupe glass, the icon of fragile labels on crates around the galaxy.
   parent: DrinkGlassBase
   id: DrinkGlassCoupeShaped
@@ -702,7 +702,7 @@
 - type: entity
   parent: DrinkGlassBase
   id: DrinkFourteenLokoGlass
-  name: Fourteen Loko glass
+  name: Fourteen loko glass
   description: This is a container of Fourteen Loko, it appears to be of the highest quality. The drink, not the container.
   components:
   - type: SolutionContainerManager
@@ -736,7 +736,7 @@
 - type: entity
   parent: DrinkGlassBase
   id: DrinkGinGlass
-  name: gin
+  name: Gin
   description: Crystal clear Griffeater gin.
   components:
   - type: SolutionContainerManager
@@ -786,8 +786,8 @@
 
 - type: entity
   parent: DrinkGlassBase
-  id: DrinkGildlagerGlass
-  name: gildlager glass
+  id: DrinkGoldschlagerGlass
+  name: goldschlager glass
   description: 100 proof that teen girls will drink anything with gold in it.
   components:
   - type: SolutionContainerManager
@@ -795,11 +795,11 @@
       drink:
         maxVol: 30
         reagents:
-        - ReagentId: Gildlager
+        - ReagentId: Goldschlager
           Quantity: 30
   - type: Drink
   - type: Sprite
-    sprite: Objects/Consumable/Drinks/gildlagerglass.rsi
+    sprite: Objects/Consumable/Drinks/goldschlagerglass.rsi
 
 - type: entity
   parent: DrinkGlassBase
@@ -1052,7 +1052,7 @@
 - type: entity
   parent: DrinkGlassBase
   id: DrinkCoffeeLiqueurGlass
-  name: coffee liqueur glass
+  name: Coffee Liqueur glass
   description: DAMN, THIS THING LOOKS ROBUST
   components:
   - type: SolutionContainerManager

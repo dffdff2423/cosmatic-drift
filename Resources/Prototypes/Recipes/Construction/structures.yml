@@ -1045,7 +1045,7 @@
   description: A wall light fixture. Use light tubes.
   icon:
     sprite: Structures/Wallmounts/Lighting/light_tube.rsi
-    state: base
+    state: off
   objectType: Structure
   placementMode: SnapgridCenter
   canRotate: true
@@ -1065,7 +1065,7 @@
   description: A wall light fixture. Use light bulbs.
   icon:
     sprite: Structures/Wallmounts/Lighting/light_small.rsi
-    state: base
+    state: off
   objectType: Structure
   placementMode: SnapgridCenter
   canRotate: true

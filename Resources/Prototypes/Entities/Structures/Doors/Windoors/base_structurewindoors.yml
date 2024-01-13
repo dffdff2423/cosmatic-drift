@@ -112,7 +112,6 @@
     openUnlitVisible: true
     # needed so that windoors will close regardless of whether there are people in it; it doesn't crush after all
     safety: false
-  - type: NavMapDoor
   - type: DoorBolt
   - type: Electrified
     enabled: false
@@ -191,5 +190,3 @@
   - type: Construction
     graph: Windoor
     node: windoorSecure
-  - type: StaticPrice
-    price: 200

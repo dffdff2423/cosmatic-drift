@@ -1,4 +1,4 @@
-# TODO: Have a seperate lid state that can be popped on and off (not as a seperate item) that changes whether the vial can be spilled or not.
+# TODO: Have a seperate lid state that can be popped on and off (not as a seperate item) that changes whether the vial can be spilled or not
 
 - type: entity
   name: vial
@@ -9,7 +9,6 @@
   - type: Tag
     tags:
     - Trash
-    - CentrifugeCompatible
   - type: PhysicalComposition
     materialComposition:
       Glass: 25
@@ -28,20 +27,19 @@
     maxFillLevels: 6
     fillBaseName: vial-1-
   - type: Drink
-    solution: beaker
   - type: SolutionContainerManager
     solutions:
-      beaker:
+      drink:
         maxVol: 30
         canMix: true
   - type: RefillableSolution
-    solution: beaker
+    solution: drink
   - type: DrainableSolution
-    solution: beaker
+    solution: drink
   - type: ExaminableSolution
-    solution: beaker
+    solution: drink
   - type: DrawableSolution
-    solution: beaker
+    solution: drink
   - type: SolutionTransfer
     maxTransferAmount: 30
     canChangeTransferAmount: true
@@ -59,7 +57,7 @@
       types:
         Blunt: 0
   - type: TrashOnSolutionEmpty
-    solution: beaker
+    solution: drink
   - type: StaticPrice
     price: 100
   - type: DamageOnLand
@@ -93,7 +91,7 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: Spillable
-    solution: beaker
+    solution: drink
 
 - type: entity
   id: VestineChemistryVial
@@ -102,7 +100,7 @@
   components:
     - type: SolutionContainerManager
       solutions:
-        beaker:
+        drink:
           maxVol: 30
           reagents:
             - ReagentId: Vestine

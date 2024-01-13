@@ -153,12 +153,3 @@
   - type: StorageFill
     contents:
     - id: RCD
-
-- type: entity
-  id: CrateParticleDecelerators
-  parent: CrateEngineeringSecure
-  components:
-  - type: StorageFill
-    contents:
-    - id: WeaponParticleDecelerator
-      amount: 3

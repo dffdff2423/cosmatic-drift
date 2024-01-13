@@ -58,16 +58,9 @@
   - type: Occluder
 
 - type: entity
-  parent: BaseMaterialDoor
-  id: BaseMaterialDoorNavMap
-  abstract: true
-  components:
-  - type: NavMapDoor
-
-- type: entity
   id: MetalDoor
   name: metal door
-  parent: BaseMaterialDoorNavMap
+  parent: BaseMaterialDoor
   components:
   - type: Construction
     graph: DoorGraph
@@ -76,7 +69,7 @@
 - type: entity
   id: WoodDoor
   name: wooden door
-  parent: BaseMaterialDoorNavMap
+  parent: BaseMaterialDoor
   description: A door, where will it lead?
   components:
   - type: Sprite
@@ -113,7 +106,7 @@
 - type: entity
   id: PaperDoor
   name: paper door
-  parent: BaseMaterialDoorNavMap
+  parent: WoodDoor
   description: A door, where will it lead?
   components:
   - type: Sprite
@@ -136,7 +129,7 @@
 - type: entity
   id: PlasmaDoor
   name: plasma door
-  parent: BaseMaterialDoorNavMap
+  parent: BaseMaterialDoor
   description: A door, where will it lead?
   components:
   - type: Sprite
@@ -162,7 +155,7 @@
 - type: entity
   id: GoldDoor
   name: gold door
-  parent: BaseMaterialDoorNavMap
+  parent: BaseMaterialDoor
   description: A door, where will it lead?
   components:
   - type: Sprite
@@ -177,7 +170,7 @@
 - type: entity
   id: SilverDoor
   name: silver door
-  parent: BaseMaterialDoorNavMap
+  parent: BaseMaterialDoor
   description: A door, where will it lead?
   components:
   - type: Sprite
@@ -192,7 +185,7 @@
 - type: entity
   id: BananiumDoor
   name: bananium door
-  parent: BaseMaterialDoorNavMap
+  parent: BaseMaterialDoor
   description: A door, where will it lead?
   components:
   - type: Sprite
@@ -212,7 +205,7 @@
 - type: entity
   id: WebDoor
   name: web door
-  parent: BaseMaterialDoorNavMap
+  parent: BaseMaterialDoor
   description: A door, leading to the lands of the spiders... or a spaced room.
   components:
   - type: Sprite

@@ -478,7 +478,7 @@
 - type: entity
   parent: ERTLeaderIDCard
   id: ERTChaplainIDCard
-  name: ERT chaplain ID card
+  name: ERT Chaplain ID card
   components:
   - type: Sprite
     layers:
@@ -492,7 +492,7 @@
 - type: entity
   parent: ERTChaplainIDCard
   id: ERTEngineerIDCard
-  name: ERT engineer ID card
+  name: ERT Engineer ID card
   components:
   - type: Sprite
     layers:
@@ -504,7 +504,7 @@
 - type: entity
   parent: ERTChaplainIDCard
   id: ERTJanitorIDCard
-  name: ERT janitor ID card
+  name: ERT Janitor ID card
   components:
   - type: Sprite
     layers:
@@ -516,7 +516,7 @@
 - type: entity
   parent: ERTChaplainIDCard
   id: ERTMedicIDCard
-  name: ERT medic ID card
+  name: ERT Medic ID card
   components:
   - type: Sprite
     layers:
@@ -528,7 +528,7 @@
 - type: entity
   parent: ERTChaplainIDCard
   id: ERTSecurityIDCard
-  name: ERT security ID card
+  name: ERT Security ID card
   components:
   - type: Sprite
     layers:

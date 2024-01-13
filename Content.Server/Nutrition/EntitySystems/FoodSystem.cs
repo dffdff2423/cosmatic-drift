@@ -422,11 +422,11 @@ public sealed class FoodSystem : EntitySystem
     {
         utensils = new List<EntityUid>();
 
-        if (component.Utensil == UtensilType.None)
+        if (component.Utensil != UtensilType.None)
             return true;
 
         if (!Resolve(user, ref hands, false))
-            return true; //mice
+            return false;
 
         var usedTypes = UtensilType.None;
 

@@ -33,9 +33,6 @@ public sealed class NavMapSystem : SharedNavMapSystem
 
         component.Beacons.Clear();
         component.Beacons.AddRange(state.Beacons);
-
-        component.Airlocks.Clear();
-        component.Airlocks.AddRange(state.Airlocks);
     }
 }
 

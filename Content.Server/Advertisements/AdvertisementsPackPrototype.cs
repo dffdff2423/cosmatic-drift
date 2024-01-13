@@ -11,8 +11,5 @@ namespace Content.Server.Advertisements
 
         [DataField("advertisements")]
         public List<string> Advertisements { get; private set; } = new();
-
-        [DataField("thankyous")]
-        public List<string> ThankYous { get; private set; } = new();
     }
 }

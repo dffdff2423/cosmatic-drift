@@ -58,4 +58,4 @@
     capacity: 125000
     quickInsert: true
     areaInsert: true
-    areaInsertRadius: 5
+    areaInsertRadius: 1000

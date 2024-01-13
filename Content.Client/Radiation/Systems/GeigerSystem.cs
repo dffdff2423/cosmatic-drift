@@ -11,11 +11,19 @@ public sealed class GeigerSystem : SharedGeigerSystem
     {
         base.Initialize();
         SubscribeLocalEvent<GeigerComponent, AfterAutoHandleStateEvent>(OnHandleState);
-        Subs.ItemStatus<GeigerComponent>(ent => ent.Comp.ShowControl ? new GeigerItemControl(ent) : null);
+        SubscribeLocalEvent<GeigerComponent, ItemStatusCollectMessage>(OnGetStatusMessage);
     }
 
     private void OnHandleState(EntityUid uid, GeigerComponent component, ref AfterAutoHandleStateEvent args)
     {
         component.UiUpdateNeeded = true;
+    }
+
+    private void OnGetStatusMessage(EntityUid uid, GeigerComponent component, ItemStatusCollectMessage args)
+    {
+        if (!component.ShowControl)
+            return;
+
+        args.Controls.Add(new GeigerItemControl(component));
     }
 }

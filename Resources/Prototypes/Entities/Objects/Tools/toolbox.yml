@@ -11,6 +11,7 @@
     capacity: 60
   - type: Item
     size: 9999
+  - type: ItemCooldown
   - type: MeleeWeapon
     damage:
       types:

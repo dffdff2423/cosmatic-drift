@@ -5,14 +5,10 @@
     "y": 32
   },
   "license": "CC-BY-SA-3.0",
-  "copyright": "Drawn by Ubaser, modified by Bhijn and Myr",
+  "copyright": "Drawn by Ubaser",
   "states": [
     {
       "name": "kobold",
-      "directions": 4
-    },
-    {
-      "name": "outline",
       "directions": 4
     }
   ]

@@ -45,7 +45,7 @@
   
 - type: entity
   id: BulletRifleUranium
-  parent: BaseBulletUranium
+  parent: BaseBullet
   name: bullet (0.20 rifle uranium)
   noSpawn: true
   components:

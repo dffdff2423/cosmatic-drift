@@ -6,7 +6,6 @@ using Content.Shared.Damage;
 using Content.Shared.Database;
 using Content.Shared.Interaction;
 using Content.Shared.Tools.Components;
-using ItemToggleComponent = Content.Shared.Item.ItemToggle.Components.ItemToggleComponent;
 
 namespace Content.Server.Damage.Systems
 {
@@ -27,7 +26,7 @@ namespace Content.Server.Damage.Systems
             if (args.Handled)
                 return;
 
-            if (!TryComp<ItemToggleComponent>(args.Used, out var itemToggle))
+            if (!TryComp<ItemToggleComponent>(uid, out var itemToggle))
                 return;
 
             if (component.WeldingDamage is {} weldingDamage

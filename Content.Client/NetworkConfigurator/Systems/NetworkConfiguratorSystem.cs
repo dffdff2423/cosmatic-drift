@@ -31,13 +31,13 @@ public sealed class NetworkConfiguratorSystem : SharedNetworkConfiguratorSystem
         base.Initialize();
 
         SubscribeLocalEvent<ClearAllOverlaysEvent>(_ => ClearAllOverlays());
-        Subs.ItemStatus<NetworkConfiguratorComponent>(OnCollectItemStatus);
+        SubscribeLocalEvent<NetworkConfiguratorComponent, ItemStatusCollectMessage>(OnCollectItemStatus);
     }
 
-    private Control OnCollectItemStatus(Entity<NetworkConfiguratorComponent> entity)
+    private void OnCollectItemStatus(EntityUid uid, NetworkConfiguratorComponent configurator, ItemStatusCollectMessage args)
     {
         _inputManager.TryGetKeyBinding((ContentKeyFunctions.AltUseItemInHand), out var binding);
-        return new StatusControl(entity, binding?.GetKeyString() ?? "");
+        args.Controls.Add(new StatusControl(configurator, binding?.GetKeyString() ?? ""));
     }
 
     public bool ConfiguredListIsTracked(EntityUid uid, NetworkConfiguratorComponent? component = null)

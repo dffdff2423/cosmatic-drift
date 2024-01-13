@@ -12,7 +12,6 @@ using Content.Shared.Item.ItemToggle;
 using Content.Shared.Tools.Components;
 using Robust.Shared.GameStates;
 using System.Linq;
-using Content.Shared.Item.ItemToggle.Components;
 
 namespace Content.Server.Tools
 {
@@ -99,27 +98,24 @@ namespace Content.Server.Tools
 
         private void OnWelderExamine(Entity<WelderComponent> entity, ref ExaminedEvent args)
         {
-            using (args.PushGroup(nameof(WelderComponent)))
+            if (_itemToggle.IsActivated(entity.Owner))
             {
-                if (_itemToggle.IsActivated(entity.Owner))
-                {
-                    args.PushMarkup(Loc.GetString("welder-component-on-examine-welder-lit-message"));
-                }
-                else
-                {
-                    args.PushMarkup(Loc.GetString("welder-component-on-examine-welder-not-lit-message"));
-                }
+                args.PushMarkup(Loc.GetString("welder-component-on-examine-welder-lit-message"));
+            }
+            else
+            {
+                args.PushMarkup(Loc.GetString("welder-component-on-examine-welder-not-lit-message"));
+            }
 
-                if (args.IsInDetailsRange)
-                {
-                    var (fuel, capacity) = GetWelderFuelAndCapacity(entity.Owner, entity.Comp);
+            if (args.IsInDetailsRange)
+            {
+                var (fuel, capacity) = GetWelderFuelAndCapacity(entity.Owner, entity.Comp);
 
-                    args.PushMarkup(Loc.GetString("welder-component-on-examine-detailed-message",
-                        ("colorName", fuel < capacity / FixedPoint2.New(4f) ? "darkorange" : "orange"),
-                        ("fuelLeft", fuel),
-                        ("fuelCapacity", capacity),
-                        ("status", string.Empty))); // Lit status is handled above
-                }
+                args.PushMarkup(Loc.GetString("welder-component-on-examine-detailed-message",
+                    ("colorName", fuel < capacity / FixedPoint2.New(4f) ? "darkorange" : "orange"),
+                    ("fuelLeft", fuel),
+                    ("fuelCapacity", capacity),
+                    ("status", string.Empty))); // Lit status is handled above
             }
         }
 

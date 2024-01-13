@@ -110,9 +110,6 @@
         - proto: WaterTankHighCapacity
         - proto: WeldingFuelTankHighCapacity
           cost: 3
-        - proto: WeaponTeslaGun
-          prob: 0.1
-          cost: 2
 
 # Mob loot table
 
@@ -122,11 +119,11 @@
 # Ores - these are guaranteed
 # - Low value
 - type: salvageLoot
-  id: OreIron
+  id: OreTin
   guaranteed: true
   loots:
     - !type:BiomeMarkerLoot
-      proto: OreIron
+      proto: OreTin
 
 - type: salvageLoot
   id: OreCoal

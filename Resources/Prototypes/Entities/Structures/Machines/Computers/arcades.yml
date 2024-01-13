@@ -66,7 +66,6 @@
     - PlushieRatvar
     - PlushieNar
     - PlushieSnake
-    - PlushieArachind
     - Basketball
     - Football
     - PlushieRouny
@@ -87,7 +86,6 @@
     - PlushieMoth
     - PlushieHampter
     - PlushiePenguin
-    - PlushieHuman
   - type: WiresPanel
   - type: Wires
     layoutId: Arcade

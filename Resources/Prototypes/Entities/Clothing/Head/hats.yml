@@ -737,7 +737,7 @@
 - type: entity
   parent: ClothingHeadBase
   id: ClothingHeadHatHetmanHat
-  name: hetman hat
+  name: Hetman hat
   description: From the Zaporozhian Sich with love.
   components:
   - type: Sprite
@@ -812,7 +812,7 @@
 - type: entity
   parent: ClothingHeadBase
   id: ClothingHeadHatGladiator
-  name: gladiator helmet
+  name: Gladiator helmet
   description: Protects the head from harsh ash winds and toy spears.
   components:
   - type: Sprite

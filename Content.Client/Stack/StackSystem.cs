@@ -16,8 +16,13 @@ namespace Content.Client.Stack
         public override void Initialize()
         {
             base.Initialize();
+            SubscribeLocalEvent<StackComponent, ItemStatusCollectMessage>(OnItemStatus);
             SubscribeLocalEvent<StackComponent, AppearanceChangeEvent>(OnAppearanceChange);
-            Subs.ItemStatus<StackComponent>(ent => new StackStatusControl(ent));
+        }
+
+        private void OnItemStatus(EntityUid uid, StackComponent component, ItemStatusCollectMessage args)
+        {
+            args.Controls.Add(new StackStatusControl(component));
         }
 
         public override void SetCount(EntityUid uid, int amount, StackComponent? component = null)

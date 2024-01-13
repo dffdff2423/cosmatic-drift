@@ -6,8 +6,10 @@ using Content.Shared.Interaction;
 using Content.Shared.Movement.Events;
 using Content.Shared.Physics;
 using Content.Shared.Projectiles;
+using Content.Shared.Timing;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Systems;
+using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Physics;
@@ -16,6 +18,7 @@ using Robust.Shared.Physics.Dynamics.Joints;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
+using Robust.Shared.Utility;
 
 namespace Content.Shared.Weapons.Misc;
 
@@ -26,8 +29,8 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedJointSystem _joints = default!;
-    [Dependency] private readonly SharedGunSystem _gun = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly UseDelaySystem _delay = default!;
 
     public const string GrapplingJoint = "grappling";
 
@@ -48,8 +51,7 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
 
     private void OnGrappleJointRemoved(EntityUid uid, GrapplingProjectileComponent component, JointRemovedEvent args)
     {
-        if (_netManager.IsServer)
-            QueueDel(uid);
+        QueueDel(uid);
     }
 
     private void OnGrapplingShot(EntityUid uid, GrapplingGunComponent component, ref GunShotEvent args)
@@ -59,12 +61,12 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
             if (!HasComp<GrapplingProjectileComponent>(shotUid))
                 continue;
 
-            //todo: this doesn't actually support multigrapple
             // At least show the visuals.
             component.Projectile = shotUid.Value;
             Dirty(uid, component);
             var visuals = EnsureComp<JointVisualsComponent>(shotUid.Value);
-            visuals.Sprite = component.RopeSprite;
+            visuals.Sprite =
+                new SpriteSpecifier.Rsi(new ResPath("Objects/Weapons/Guns/Launchers/grappling_gun.rsi"), "rope");
             visuals.OffsetA = new Vector2(0f, 0.5f);
             visuals.Target = uid;
             Dirty(shotUid.Value, visuals);
@@ -72,7 +74,6 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
 
         TryComp<AppearanceComponent>(uid, out var appearance);
         _appearance.SetData(uid, SharedTetherGunSystem.TetherVisualsStatus.Key, false, appearance);
-        Dirty(uid, component);
     }
 
     private void OnGrapplingDeselected(EntityUid uid, GrapplingGunComponent component, HandDeselectedEvent args)
@@ -116,25 +117,26 @@ public abstract class SharedGrapplingGunSystem : EntitySystem
 
     private void OnGunActivate(EntityUid uid, GrapplingGunComponent component, ActivateInWorldEvent args)
     {
-        if (!Timing.IsFirstTimePredicted || args.Handled)
+        if (!Timing.IsFirstTimePredicted || _delay.ActiveDelay(uid))
             return;
 
-        if (Deleted(component.Projectile))
-            return;
-
+        _delay.BeginDelay(uid);
         _audio.PlayPredicted(component.CycleSound, uid, args.User);
-        _appearance.SetData(uid, SharedTetherGunSystem.TetherVisualsStatus.Key, true);
 
-        if (_netManager.IsServer)
-        {
-            QueueDel(component.Projectile.Value);
-        }
-
-        component.Projectile = null;
+        TryComp<AppearanceComponent>(uid, out var appearance);
+        _appearance.SetData(uid, SharedTetherGunSystem.TetherVisualsStatus.Key, true, appearance);
         SetReeling(uid, component, false, args.User);
-        _gun.ChangeBasicEntityAmmoCount(uid,  1);
 
-        args.Handled = true;
+        if (!Deleted(component.Projectile))
+        {
+            if (_netManager.IsServer)
+            {
+                QueueDel(component.Projectile.Value);
+            }
+
+            component.Projectile = null;
+            Dirty(uid, component);
+        }
     }
 
     private void SetReeling(EntityUid uid, GrapplingGunComponent component, bool value, EntityUid? user)

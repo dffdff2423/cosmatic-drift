@@ -7,7 +7,6 @@ using Content.Shared.Damage.Events;
 using Content.Shared.Examine;
 using Content.Shared.Item;
 using Content.Shared.Item.ItemToggle;
-using Content.Shared.Item.ItemToggle.Components;
 using Content.Shared.Popups;
 using Content.Shared.Stunnable;
 
@@ -25,11 +24,11 @@ namespace Content.Server.Stunnable.Systems
         {
             base.Initialize();
 
-            SubscribeLocalEvent<StunbatonComponent, ExaminedEvent>(OnExamined);
+            SubscribeLocalEvent<BatteryComponent, ExaminedEvent>(OnExamined);
             SubscribeLocalEvent<StunbatonComponent, SolutionContainerChangedEvent>(OnSolutionChange);
             SubscribeLocalEvent<StunbatonComponent, StaminaDamageOnHitAttemptEvent>(OnStaminaHitAttempt);
             SubscribeLocalEvent<StunbatonComponent, ItemToggleActivateAttemptEvent>(TryTurnOn);
-            SubscribeLocalEvent<StunbatonComponent, ItemToggledEvent>(ToggleDone);
+            SubscribeLocalEvent<StunbatonComponent, ItemToggleDoneEvent>(ToggleDone);
         }
 
         private void OnStaminaHitAttempt(Entity<StunbatonComponent> entity, ref StaminaDamageOnHitAttemptEvent args)
@@ -47,20 +46,24 @@ namespace Content.Server.Stunnable.Systems
             }
         }
 
-        private void OnExamined(Entity<StunbatonComponent> entity, ref ExaminedEvent args)
+        private void OnExamined(Entity<BatteryComponent> entity, ref ExaminedEvent args)
         {
             var onMsg = _itemToggle.IsActivated(entity.Owner)
             ? Loc.GetString("comp-stunbaton-examined-on")
             : Loc.GetString("comp-stunbaton-examined-off");
             args.PushMarkup(onMsg);
+
+            var chargeMessage = Loc.GetString("stunbaton-component-on-examine-charge",
+                ("charge", (int) (entity.Comp.CurrentCharge / entity.Comp.MaxCharge * 100)));
+            args.PushMarkup(chargeMessage);
         }
 
-        private void ToggleDone(Entity<StunbatonComponent> entity, ref ItemToggledEvent args)
+        private void ToggleDone(Entity<StunbatonComponent> entity, ref ItemToggleDoneEvent args)
         {
             if (!TryComp<ItemComponent>(entity, out var item))
                 return;
 
-            _item.SetHeldPrefix(entity.Owner, args.Activated ? "on" : "off", component: item);
+            _item.SetHeldPrefix(entity.Owner, args.Activated ? "on" : "off", item);
         }
 
         private void TryTurnOn(Entity<StunbatonComponent> entity, ref ItemToggleActivateAttemptEvent args)

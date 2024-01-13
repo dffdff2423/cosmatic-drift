@@ -154,7 +154,7 @@
     contents:
       - id: MedkitFilled
       - id: ClothingHandsGlovesNitrile
-      - id: ClothingEyesHudMedical
+      #- name: ClothingEyesHudMedical #Removed until working properly
       - id: ClothingHeadsetAltMedical
       - id: ClothingCloakCmo
       - id: ClothingBackpackDuffelSurgeryFilled
@@ -178,7 +178,7 @@
     contents:
       - id: MedkitFilled
       - id: ClothingHandsGlovesNitrile
-      - id: ClothingEyesHudMedical
+      #- name: ClothingEyesHudMedical #Removed until working properly
       - id: ClothingHeadsetAltMedical
       - id: ClothingBackpackDuffelSurgeryFilled
       - id: ClothingMaskSterile
@@ -199,12 +199,16 @@
       - id: ResearchComputerCircuitboard
       - id: ProtolatheMachineCircuitboard
       - id: CircuitImprinterMachineCircuitboard
+      - id: ClothingNeckCloakRd
       - id: ClothingHeadsetMedicalScience
       - id: ClothingOuterHardsuitRd
       - id: HandTeleporter
       - id: DoorRemoteResearch
+      - id: ClothingHeadHatBeretRND
+      - id: ClothingHandsGlovesColorPurple
       - id: ClothingBeltUtilityFilled
       - id: RubberStampRd
+      - id: ClothingHeadsetAltScience
       - id: BoxEncryptionKeyScience
 
 - type: entity
@@ -217,11 +221,15 @@
       - id: ResearchComputerCircuitboard
       - id: ProtolatheMachineCircuitboard
       - id: CircuitImprinterMachineCircuitboard
+      - id: ClothingNeckCloakRd
       - id: ClothingHeadsetMedicalScience
       - id: HandTeleporter
       - id: DoorRemoteResearch
+      - id: ClothingHeadHatBeretRND
+      - id: ClothingHandsGlovesColorPurple
       - id: ClothingBeltUtilityFilled
       - id: RubberStampRd
+      - id: ClothingHeadsetAltScience
       - id: BoxEncryptionKeyScience
 
 - type: entity

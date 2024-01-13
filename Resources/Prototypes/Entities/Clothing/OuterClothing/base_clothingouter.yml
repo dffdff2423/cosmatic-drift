@@ -134,4 +134,6 @@
   components:
   - type: Item
     size: 30
-    
+  - type: Clothing
+    slots:
+    - outerClothing

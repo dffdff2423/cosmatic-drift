@@ -19,26 +19,13 @@
   id: AdvancedPowercells
   name: research-technology-advanced-powercells
   icon:
-    sprite: Structures/Power/turbo_recharger.rsi
-    state: empty
+    sprite: Objects/Power/power_cells.rsi
+    state: high
   discipline: Industrial
   tier: 1
-  cost: 7500
+  cost: 5000
   recipeUnlocks:
   - PowerCellHigh
-  - TurboItemRechargerCircuitboard
-
-- type: technology
-  id: MechanicalCompression
-  name: research-technology-mechanical-compression
-  icon:
-    sprite: Structures/Machines/flatpacker.rsi
-    state: base
-  discipline: Industrial
-  tier: 1
-  cost: 10000
-  recipeUnlocks:
-  - FlatpackerMachineCircuitboard
 
 - type: technology
   id: CompactPower
@@ -158,11 +145,10 @@
     state: icon
   discipline: Industrial
   tier: 2
-  cost: 7500
+  cost: 5000
   recipeUnlocks:
-  - HellfireFreezerMachineCircuitBoard
-  - PortableScrubberMachineCircuitBoard
   - HolofanProjector
+  - PortableScrubberMachineCircuitBoard
 
 - type: technology
   id: AdvancedToolsTechnology

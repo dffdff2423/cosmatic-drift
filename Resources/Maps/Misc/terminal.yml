@@ -4317,6 +4317,7 @@ entities:
     - pos: 16.336403,-3.492324
       parent: 2
       type: Transform
+    - type: ItemCooldown
 - proto: ArrivalsShuttleTimer
   entities:
   - uid: 9165
@@ -19960,6 +19961,7 @@ entities:
     - pos: -26.633257,17.445375
       parent: 2
       type: Transform
+    - type: ItemCooldown
 - proto: ClothingBackpackSatchelBrigmedic
   entities:
   - uid: 1908
@@ -19967,6 +19969,7 @@ entities:
     - pos: -23.38142,-19.443447
       parent: 2
       type: Transform
+    - type: ItemCooldown
 - proto: ClothingBackpackSatchelLeather
   entities:
   - uid: 9094

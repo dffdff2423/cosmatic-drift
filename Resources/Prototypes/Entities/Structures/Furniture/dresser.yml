@@ -38,11 +38,6 @@
   - type: Tag
     tags:
     - Wooden
-  - type: Anchorable
-  - type: Rotatable
-  - type: Construction
-    graph: Dresser
-    node: dresser
 
 - type: entity
   id: DresserFilled

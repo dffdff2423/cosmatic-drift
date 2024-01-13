@@ -140,10 +140,7 @@ namespace Content.Server.Atmos.EntitySystems
                     tile.PressureSpecificTarget = curTile;
             }
 
-            _entSet.Clear();
-            _lookup.GetLocalEntitiesIntersecting(tile.GridIndex, tile.GridIndices, _entSet, 0f);
-
-            foreach (var entity in _entSet)
+            foreach (var entity in _lookup.GetEntitiesIntersecting(tile.GridIndex, tile.GridIndices, 0f))
             {
                 // Ideally containers would have their own EntityQuery internally or something given recursively it may need to slam GetComp<T> anyway.
                 // Also, don't care about static bodies (but also due to collisionwakestate can't query dynamic directly atm).

@@ -23,7 +23,6 @@ using Robust.Shared.Input;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
-using ItemToggleComponent = Content.Shared.Item.ItemToggle.Components.ItemToggleComponent;
 
 namespace Content.IntegrationTests.Tests.Interaction;
 
@@ -524,7 +523,7 @@ public abstract partial class InteractionTest
     /// <summary>
     /// Assert whether or not the target has the given component.
     /// </summary>
-    protected void AssertComp<T>(bool hasComp = true, NetEntity? target = null) where T : IComponent
+    protected void AssertComp<T>(bool hasComp = true, NetEntity? target = null)
     {
         target ??= Target;
         if (target == null)
@@ -1120,6 +1119,6 @@ public abstract partial class InteractionTest
 
     protected EntityCoordinates Position(NetEntity uid) => Position(ToServer(uid));
     protected EntityCoordinates Position(EntityUid uid) => Xform(uid).Coordinates;
-
+    
     #endregion
 }

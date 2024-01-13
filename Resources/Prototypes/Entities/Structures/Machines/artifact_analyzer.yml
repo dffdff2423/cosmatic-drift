@@ -1,4 +1,4 @@
-- type: entity
+﻿- type: entity
   id: MachineArtifactAnalyzer
   parent: [ BaseMachinePowered, ConstructibleMachine ]
   name: artifact analyzer
@@ -40,7 +40,7 @@
     anchored: true
     noRot: false
   - type: ApcPowerReceiver
-    powerLoad: 12000
+    powerLoad: 15000
     needsPower: false #only turns on when scanning
   - type: UpgradePowerDraw
     powerDrawMultiplier: 0.80

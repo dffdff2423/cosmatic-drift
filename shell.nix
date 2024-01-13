@@ -1,8 +1,4 @@
-{ pkgs ? import (builtins.fetchTarball {
-  url =
-    "https://github.com/NixOS/nixpkgs/archive/3da785eeaad3d604ee3bccc0a3f07bfd11cb355a.tar.gz";
-  sha256 = "16vkl710mmq176qcj6ygk70kns37fg71ip6x16m6dhpicz90d2gq";
-}) { } }:
+{ pkgs ? import <nixpkgs> {} }:
 
 let
   dependencies = with pkgs; [

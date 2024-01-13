@@ -283,11 +283,11 @@
     maxSpawnAmount: 50
     spawnRange: 10
     spawns:
-    - WallSpawnAsteroid
-    - RockAnomCrabSpawner
+    - AsteroidRock
+    - AsteroidCrabSpawner
     - CrystalSpawner
     superCriticalSpawns:
-    - WallSpawnAsteroid
+    - AsteroidRock
     - SpawnMobOreCrab
 
 - type: entity

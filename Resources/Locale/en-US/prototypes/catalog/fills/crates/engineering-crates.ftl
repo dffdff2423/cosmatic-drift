@@ -42,6 +42,3 @@ ent-CrateRCDAmmo = RCD ammo crate
 
 ent-CrateRCD = RCD crate
     .desc = A crate containing a single Rapid Construction Device.
-
-ent-CrateParticleDecelerators = Particle Decelerators crate
-    .desc = A crate containing 3 Particle Decelerators.

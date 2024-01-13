@@ -118,8 +118,7 @@ public sealed partial class ContentAudioSystem : SharedContentAudioSystem
             }
 
             var volume = component.Volume - change * frameTime;
-            volume = MathF.Max(MinVolume, volume);
-            _audio.SetVolume(stream, volume, component);
+            component.Volume = MathF.Max(MinVolume, volume);
 
             if (component.Volume.Equals(MinVolume))
             {
@@ -145,8 +144,7 @@ public sealed partial class ContentAudioSystem : SharedContentAudioSystem
             }
 
             var volume = component.Volume + change * frameTime;
-            volume = MathF.Max(target, volume);
-            _audio.SetVolume(stream, volume, component);
+            component.Volume = MathF.Min(target, volume);
 
             if (component.Volume.Equals(target))
             {

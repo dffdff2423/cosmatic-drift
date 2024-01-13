@@ -186,7 +186,7 @@
 - type: entity
   parent: DrinkBottleGlassBaseFull
   id: DrinkGinBottleFull
-  name: Griffeater gin
+  name: Griffeater Gin
   description: A bottle of high quality gin, produced in the New London Space Station.
   components:
   - type: SolutionContainerManager
@@ -200,18 +200,18 @@
 
 - type: entity
   parent: DrinkBottleGlassBaseFull
-  id: DrinkGildlagerBottleFull
-  name: gildlager bottle
+  id: DrinkGoldschlagerBottleFull
+  name: goldschlager bottle
   description: 100 proof cinnamon schnapps, made for alcoholic teen girls on spring break.
   components:
   - type: SolutionContainerManager
     solutions:
       drink:
         reagents:
-        - ReagentId: Gildlager
+        - ReagentId: Goldschlager
           Quantity: 100
   - type: Sprite
-    sprite: Objects/Consumable/Drinks/gildlagerbottle.rsi
+    sprite: Objects/Consumable/Drinks/goldschlagerbottle.rsi
 
 - type: entity
   parent: DrinkBottleGlassBaseFull

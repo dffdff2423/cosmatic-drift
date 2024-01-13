@@ -10,11 +10,12 @@ namespace Content.Shared.Item;
 /// </summary>
 [RegisterComponent]
 [NetworkedComponent]
-[Access(typeof(SharedItemSystem)), AutoGenerateComponentState(true)]
+[Access(typeof(SharedItemSystem))]
 public sealed partial class ItemComponent : Component
 {
-    [DataField, ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
-    [Access(typeof(SharedItemSystem))]
+    [ViewVariables(VVAccess.ReadWrite)]
+    [DataField("size")]
+    [Access(typeof(SharedItemSystem), Other = AccessPermissions.ReadExecute)]
     public int Size = 5;
 
     [Access(typeof(SharedItemSystem))]
@@ -23,7 +24,7 @@ public sealed partial class ItemComponent : Component
 
     [Access(typeof(SharedItemSystem))]
     [ViewVariables(VVAccess.ReadWrite)]
-    [DataField, AutoNetworkedField]
+    [DataField("heldPrefix")]
     public string? HeldPrefix;
 
     /// <summary>
@@ -33,6 +34,19 @@ public sealed partial class ItemComponent : Component
     [ViewVariables(VVAccess.ReadWrite)]
     [DataField("sprite")]
     public string? RsiPath;
+}
+
+[Serializable, NetSerializable]
+public sealed class ItemComponentState : ComponentState
+{
+    public int Size { get; }
+    public string? HeldPrefix { get; }
+
+    public ItemComponentState(int size, string? heldPrefix)
+    {
+        Size = size;
+        HeldPrefix = heldPrefix;
+    }
 }
 
 /// <summary>

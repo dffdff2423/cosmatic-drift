@@ -60,10 +60,9 @@
           ambitech.ogg,
           ambitech2.ogg,
           ambitech3.ogg,
-          maintambience.ogg,
-          ambispace2.ogg"]
+          maintambience.ogg"]
   license: "CC-BY-SA-3.0"
-  copyright: "Taken from /tg/station"
+  copyright: "Taken from tgstation"
   source: "https://github.com/tgstation/tgstation/tree/ae9767664701396501af5dcef8e34c4b5add3d47/sound/ambience"
 
 - files: ["shipambience.ogg"]
@@ -90,9 +89,3 @@
   license: "CC0-1.0"
   copyright: "Created by Discord handle derflerp"
   source: "https://discord.com/channels/310555209753690112/536955542913024015/1162982443645665371"
-
-- files: ["spookyspace1.ogg,
-          spookyspace2.ogg"]
-  license: "CC0-1.0"
-  copyright: "Taken from /vg/station"
-  source: "https://github.com/vgstation-coders/vgstation13/commit/23303188abe6fe31b114a218a1950d7325a23730"
