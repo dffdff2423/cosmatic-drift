@@ -5,9 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net;
 using System.Text.Json;
+using Content.Server.Database._CD;
 using Content.Shared.Database;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
+
+using Content.Server.Database._CD;
 
 namespace Content.Server.Database
 {
@@ -40,6 +43,12 @@ namespace Content.Server.Database
         public DbSet<AdminNote> AdminNotes { get; set; } = null!;
         public DbSet<AdminWatchlist> AdminWatchlists { get; set; } = null!;
         public DbSet<AdminMessage> AdminMessages { get; set; } = null!;
+
+        #region CDAdditions
+
+        public DbSet<CDModel.RecordEntry> CDEntries = default!;
+
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -295,6 +304,20 @@ namespace Content.Server.Database
                 .HasForeignKey(ban => ban.LastEditedById)
                 .HasPrincipalKey(author => author.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            #region CDAdditions
+
+            modelBuilder.Entity<CDModel.RecordEntry>()
+                .HasIndex(e => e.Id)
+                .IsUnique();
+
+            modelBuilder.Entity<CDModel.RecordEntry>()
+                .HasOne(e => e.Profile)
+                .WithMany(p => p.CDCharacterRecordEntries)
+                .HasForeignKey(e => e.ProfileId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
         }
 
         public virtual IQueryable<AdminLog> SearchLogs(IQueryable<AdminLog> query, string searchText)
@@ -349,6 +372,8 @@ namespace Content.Server.Database
         // CD: Store character records
         [Column("cd_character_records", TypeName = "jsonb")]
         public JsonDocument? CDCharacterRecords { get; set; }
+
+        public IEnumerable<CDModel.RecordEntry> CDCharacterRecordEntries { get; set; } = null!;
 
         public int PreferenceId { get; set; }
         public Preference Preference { get; set; } = null!;
