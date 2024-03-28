@@ -1248,6 +1248,54 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.ToTable("whitelist", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database._CD.CDModel+RecordEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("cd_record_entries_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<Guid?>("ForeignCreator")
+                        .HasColumnType("uuid")
+                        .HasColumnName("foreign_creator");
+
+                    b.Property<string>("Involved")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("involved");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("integer")
+                        .HasColumnName("profile_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("title");
+
+                    b.Property<byte>("Type")
+                        .HasColumnType("smallint")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("PK_cd_record_entries");
+
+                    b.HasIndex("Id")
+                        .IsUnique()
+                        .HasDatabaseName("IX_cd_record_entries_cd_record_entries_id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("cd_record_entries", (string)null);
+                });
+
             modelBuilder.Entity("PlayerRound", b =>
                 {
                     b.Property<int>("PlayersId")
@@ -1647,6 +1695,18 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Profile");
                 });
 
+            modelBuilder.Entity("Content.Server.Database._CD.CDModel+RecordEntry", b =>
+                {
+                    b.HasOne("Content.Server.Database.Profile", "Profile")
+                        .WithMany("CDCharacterRecordEntries")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_cd_record_entries_profile_profile_id");
+
+                    b.Navigation("Profile");
+                });
+
             modelBuilder.Entity("PlayerRound", b =>
                 {
                     b.HasOne("Content.Server.Database.Player", null)
@@ -1731,6 +1791,8 @@ namespace Content.Server.Database.Migrations.Postgres
             modelBuilder.Entity("Content.Server.Database.Profile", b =>
                 {
                     b.Navigation("Antags");
+
+                    b.Navigation("CDCharacterRecordEntries");
 
                     b.Navigation("Jobs");
 
