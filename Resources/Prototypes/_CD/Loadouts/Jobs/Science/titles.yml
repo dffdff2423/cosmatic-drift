@@ -1,0 +1,17 @@
+- type: loadout
+  id: RoboticistPDA
+  equipment: RoboticistPDA
+
+- type: startingGear
+  id: RoboticistPDA
+  equipment:
+    id: RoboticistPDA
+
+- type: loadout
+  id: ScientistPda
+  equipment: ScientistPda
+
+- type: startingGear
+  id: ScientistPda
+  equipment:
+    id: ScientistPda
